@@ -1,6 +1,4 @@
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using CashMachineApp.ViewModels;
 
 namespace CashMachineApp.Services
 {
@@ -22,10 +20,6 @@ namespace CashMachineApp.Services
             set
             {
                 _navigationFrame = value;
-                if (_navigationFrame != null)
-                {
-                    _navigationFrame.Navigated += OnNavigated;
-                }
             }
         }
 
@@ -51,14 +45,6 @@ namespace CashMachineApp.Services
             if (_navigationFrame?.CanGoBack == true)
             {
                 _navigationFrame.GoBack();
-            }
-        }
-
-        private void OnNavigated(object sender, NavigationEventArgs e)
-        {
-            if (e.Content is Page page && page.DataContext is ViewModelBase viewModel)
-            {
-                // Можно добавить логику инициализации после навигации
             }
         }
     }

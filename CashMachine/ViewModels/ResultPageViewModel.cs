@@ -1,15 +1,14 @@
 using CashMachineApp.Services;
-using System.Windows.Controls;
 
 namespace CashMachineApp.ViewModels
 {
     public class ResultPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private uint _remain;
+        private ulong _remain;
         private PageType _pageType;
 
-        public uint Remain
+        public ulong Remain
         {
             get => _remain;
             set => SetProperty(ref _remain, value);
@@ -29,7 +28,7 @@ namespace CashMachineApp.ViewModels
             ? "Can't input money:" 
             : "Can't get money:";
 
-        public ResultPageViewModel(uint remain, PageType pageType, INavigationService navigationService)
+        public ResultPageViewModel(ulong remain, PageType pageType, INavigationService navigationService)
         {
             _remain = remain;
             _pageType = pageType;

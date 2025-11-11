@@ -14,12 +14,12 @@ namespace CashMachineNamespace
 
     public partial class CashMachine
     {
-        private static uint MaxAmountBankNotes {get;set;}
+        private static uint MaxAmountBanknotesEveryDenomination{get;set;}
         private static SortedDictionary<DenominationBanknotes, uint> denominationBanknotes;
 
         static CashMachine()
         {
-            MaxAmountBankNotes = 1000;
+            MaxAmountBanknotesEveryDenomination = 1000;
             denominationBanknotes = new SortedDictionary<DenominationBanknotes, uint>(Comparer<DenominationBanknotes>.Create((x, y) => y.CompareTo(x))) {
                 {DenominationBanknotes.FiveRubles, 5 },
                 {DenominationBanknotes.TenRubles, 10},
@@ -40,7 +40,7 @@ namespace CashMachineNamespace
             {
                 _banknotes = value;
                 CurrentAmountBanknotes = 0;
-                if (_banknotes != null)
+                if (_banknotes.Count > 0)
                 {
                     foreach (var (_, currentAmount) in _banknotes)
                     {
@@ -50,7 +50,7 @@ namespace CashMachineNamespace
             }
         }
 
-        public uint CurrentAmountOfMoney { get => CalculateSumMoney(Banknotes); }
+        public ulong CurrentAmountOfMoney { get => CalculateSumMoney(Banknotes); }
         public CashMachine() 
         {
             CurrentAmountBanknotes = 0;
@@ -58,7 +58,7 @@ namespace CashMachineNamespace
         }
         public CashMachine(Dictionary<DenominationBanknotes, uint> banknotes)
         {
-            Banknotes = banknotes;
+            _banknotes = banknotes;
         }
 
         private void AddMoney(DenominationBanknotes denomination, uint amount)
@@ -72,31 +72,42 @@ namespace CashMachineNamespace
         public bool PutMoney(ref  Dictionary<DenominationBanknotes, uint> banknotes)
         {
             if (banknotes.Count == 0) return true;
+            List<DenominationBanknotes> needDelete = new List<DenominationBanknotes>();
+            bool successPut = true;
+            
             foreach (var (denomination, currentAmount) in banknotes)
             {
-                if (CurrentAmountBanknotes + currentAmount <= MaxAmountBankNotes)
+                uint curAmountCurDenomination = Banknotes.ContainsKey(denomination) ? Banknotes[denomination] : 0; 
+                if (curAmountCurDenomination + currentAmount <= MaxAmountBanknotesEveryDenomination)
                 {
                     AddMoney(denomination, currentAmount);
-                    banknotes.Remove(denomination);
+                    needDelete.Add(denomination);
                     CurrentAmountBanknotes += currentAmount;
                 }
                 else
                 {
-                    uint addingAmount = MaxAmountBankNotes - CurrentAmountBanknotes;
-
+                    uint addingAmount = MaxAmountBanknotesEveryDenomination - curAmountCurDenomination;
                     AddMoney(denomination, addingAmount);
                     banknotes[denomination] -= addingAmount;
-                    CurrentAmountBanknotes = MaxAmountBankNotes;
-                    return false;
+                    CurrentAmountBanknotes += addingAmount;
+                    successPut =  false;
+                    break;
                 }
             }
-            return true;
+
+            foreach (var denomination in needDelete)
+            {
+                banknotes.Remove(denomination);
+            }
+            
+            
+            return successPut;
         }
         
         public bool WithdrawMoney(ref uint sum, ref Dictionary<DenominationBanknotes, uint> result, bool isSmallMoney = true)
         {
             if (sum == 0) return true;
-            if (Banknotes.Count == 0) return false; ;
+            if (Banknotes.Count == 0) return false;
             var curDenominationBanknotes = !isSmallMoney ? denominationBanknotes.ToList() : denominationBanknotes.ToList().AsEnumerable().Reverse().ToList();
             foreach (var(denomination, currentDenomination) in curDenominationBanknotes)
             {
@@ -118,7 +129,7 @@ namespace CashMachineNamespace
             return sum == 0;
         }
 
-        public static uint CalculateSumMoney(Dictionary<DenominationBanknotes, uint> money)
+        public static ulong CalculateSumMoney(Dictionary<DenominationBanknotes, uint> money)
         {
             uint sum = 0;
             foreach (var (denomination, currentAmount) in money)

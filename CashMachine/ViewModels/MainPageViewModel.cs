@@ -1,6 +1,5 @@
 using CashMachineApp.Services;
 using CashMachineNamespace;
-using System.Windows.Controls;
 
 namespace CashMachineApp.ViewModels
 {

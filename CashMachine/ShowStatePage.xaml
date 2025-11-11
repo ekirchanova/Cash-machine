@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CashMachineApp"
+      xmlns:vm="clr-namespace:CashMachineApp.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
       Title="ShowStatePage">
@@ -17,13 +17,29 @@
         </Grid.Background>
 
         <TextBlock Margin="0,32,0,0" TextWrapping="Wrap" Text="Show state" Height="74" FontSize="60" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-        <StackPanel Margin="0,150,0,0" >
-            <TextBlock TextWrapping="Wrap" Text="The amount of money:" Height="80" FontSize="60" Foreground="#FF2BE425" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding AmountOfMoney}" TextWrapping="Wrap" Height="80" FontSize="60" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <StackPanel Margin="0,100,0,0" >
+            <TextBlock TextWrapping="Wrap" Text="The amount of money:" Height="40" FontSize="30" Foreground="#FF2BE425" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding AmountOfMoney}" TextWrapping="Wrap" Height="40" FontSize="30" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
-            <TextBlock TextWrapping="Wrap" Text="The amount of banknotes:" Height="80" FontSize="60" Foreground="#FF2BE425" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding AmountOfBanknotes}" TextWrapping="Wrap" Height="80" FontSize="60" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock TextWrapping="Wrap" Text="The amount of banknotes:" Height="40" FontSize="30" Foreground="#FF2BE425" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding AmountOfBanknotes}" TextWrapping="Wrap" Height="40" FontSize="30" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
         </StackPanel>
+        
+        <ItemsControl ItemsSource="{Binding BanknoteInputs}" Margin="0, 250, 0, 0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:BanknoteInputViewModel}">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding DenominationName}" Height="40" Width="170" FontSize="30" Foreground="#FF2BE425" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Amount}" Height="40" Width="170" FontSize="30" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
         <Button Content="Ok" HorizontalAlignment="Left" Margin="580,510,0,0" Foreground="White" FontSize="30" VerticalAlignment="Top" Background="#FF61B054" Height="40" Width="132" Command="{Binding OkCommand}"/>
 
