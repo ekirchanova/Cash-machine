@@ -20,4 +20,4 @@ Consider each one in more detail.
    
 3)Show state
 
-  The ATM will display the amount that is stored in it and the number of bills.
+  The ATM will display the amount that is stored in it and total amount  of bills, amount of bills every denomination.
