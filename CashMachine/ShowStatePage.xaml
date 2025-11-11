@@ -1,0 +1,31 @@
+<Page x:Class="CashMachineApp.ShowStatePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CashMachineApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="ShowStatePage">
+
+    <Grid x:Name="ShowStatePage1">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black"/>
+                <GradientStop Color="#FF589A4B" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <TextBlock Margin="0,32,0,0" TextWrapping="Wrap" Text="Show state" Height="74" FontSize="60" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <StackPanel Margin="0,150,0,0" >
+            <TextBlock TextWrapping="Wrap" Text="The amount of money:" Height="80" FontSize="60" Foreground="#FF2BE425" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding AmountOfMoney}" TextWrapping="Wrap" Height="80" FontSize="60" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+            <TextBlock TextWrapping="Wrap" Text="The amount of banknotes:" Height="80" FontSize="60" Foreground="#FF2BE425" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding AmountOfBanknotes}" TextWrapping="Wrap" Height="80" FontSize="60" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <Button Content="Ok" HorizontalAlignment="Left" Margin="580,510,0,0" Foreground="White" FontSize="30" VerticalAlignment="Top" Background="#FF61B054" Height="40" Width="132" Command="{Binding OkCommand}"/>
+
+    </Grid>
+</Page>

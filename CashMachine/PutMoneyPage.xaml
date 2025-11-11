@@ -1,0 +1,47 @@
+<Page x:Class="CashMachineApp.PutMoneyPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CashMachineApp"
+      xmlns:vm="clr-namespace:CashMachineApp.ViewModels"
+      xmlns:behaviors="clr-namespace:CashMachineApp.Behaviors"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="750"
+      Title="PutMoneyPage">
+
+    <Grid x:Name="PutMoneyPage1">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black"/>
+                <GradientStop Color="#FF589A4B" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <TextBlock Margin="0,32,0,0" TextWrapping="Wrap" Text="Put money" Height="74" FontSize="60" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+        <ItemsControl ItemsSource="{Binding BanknoteInputs}" Margin="0, 100, 0, 0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:BanknoteInputViewModel}">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding DenominationName}" Height="40" Width="170" FontSize="30" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                        <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}" MaxLength="5" FontSize="30" Width="170" Height="40" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF132110" behaviors:NumberValidationBehavior.IsEnabled="True">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter" Command="{Binding DataContext.OkCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Content="Ok" HorizontalAlignment="Left" Margin="430,510,0,0" Foreground="White" FontSize="30" VerticalAlignment="Top" Background="#FF61B054" Height="40" Width="132" Command="{Binding OkCommand}"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="580,510,0,0" VerticalAlignment="Top" Foreground="White" FontSize="30" Background="#FF61B054" Height="40" Width="132" Command="{Binding CancelCommand}"/>
+
+    </Grid>
+</Page>
